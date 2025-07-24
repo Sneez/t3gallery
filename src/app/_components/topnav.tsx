@@ -1,4 +1,6 @@
+'use client'
 import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { UploadButton } from "~/utils/uploadthing"
 
 export function TopNav() {
   return(
@@ -6,11 +8,12 @@ export function TopNav() {
       border-b font-semibold">
       <div>Gallery</div>
 
-      <div>
+      <div className="flex flex-row">
         <SignedOut>
             <SignInButton />
         </SignedOut>
         <SignedIn>
+            <UploadButton endpoint="imageUploader" />
             <UserButton />
         </SignedIn>
       </div>
