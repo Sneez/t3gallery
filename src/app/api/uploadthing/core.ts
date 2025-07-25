@@ -11,6 +11,7 @@ export const ourFileRouter = {
   // Define as many FileRoutes as you like, each with a unique routeSlug
   imageUploader: f({ image: { maxFileSize: "4MB", maxFileCount: 40 } })
       .middleware(async ({ req }) => {
+      console.log('middleware')
       // This code runs on your server before upload
       const user = await auth()
 
@@ -18,6 +19,7 @@ export const ourFileRouter = {
       if (!user.userId) throw new UploadThingError("Unauthorized");
 
       // Whatever is returned here is accessible in onUploadComplete as `metadata`
+      console.log('middleware finished')
       return { userId: user.userId };
     })
     .onUploadComplete(async ({ metadata, file }) => {
@@ -30,6 +32,7 @@ export const ourFileRouter = {
         url: file.url,
         userId: metadata.userId
       })
+      console.log('file inserted into db')
       // !!! Whatever is returned here is sent to the clientside `onClientUploadComplete` callback
       return { uploadedBy: metadata.userId };
     }),
