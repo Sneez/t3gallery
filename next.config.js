@@ -14,7 +14,23 @@ const coreConfig = {
     },
     eslint: {
         ignoreDuringBuilds: true
-    }
+    },
+    async rewrites() {
+      return [
+        {
+          source: "/relay-hq0v/static/:path*",
+          destination: "https://us-assets.i.posthog.com/static/:path*",
+        },
+        {
+          source: "/relay-hq0v/:path*",
+          destination: "https://us.i.posthog.com/:path*",
+        },
+        {
+          source: "/relay-hq0v/flags",
+          destination: "https://us.i.posthog.com/flags",
+        },
+      ];
+    },
 };
 
 import { withSentryConfig } from "@sentry/nextjs"
