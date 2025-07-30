@@ -5,6 +5,7 @@ import { and, eq } from "drizzle-orm"
 import { images } from "./db/schema"
 import { revalidatePath } from "next/cache"
 import { redirect } from "next/navigation"
+import analyticsServerClient from "./analytics"
 
 export async function getMyImages() {
 
@@ -38,7 +39,16 @@ export async function deleteImage(id: number){
     if(!user.userId) throw new Error ("Unauthorized")
     
     await db.delete(images)
-    .where(and(eq(images.id, id), eq(images.userId, user.userId)))
+        .where(and(eq(images.id, id), eq(images.userId, user.userId)))
     
+    analyticsServerClient.capture({
+        distinctId: user.userId,
+        event: "delete image",
+        properties: {
+            imageId: id
+        }
+
+    })
+
     redirect("/")
 }
