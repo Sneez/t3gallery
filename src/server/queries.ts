@@ -1,11 +1,11 @@
-import "server-only"
+'use server'
 import { db } from "./db"
 import { auth } from "@clerk/nextjs/server"
 import { and, eq } from "drizzle-orm"
 import { images } from "./db/schema"
 import { revalidatePath } from "next/cache"
-import { redirect } from "next/navigation"
 import analyticsServerClient from "./analytics"
+import { redirect } from "next/navigation"
 
 export async function getMyImages() {
 
@@ -27,7 +27,7 @@ export async function getImage(id: number){
         where: (model, { eq }) => eq(model.id, id)
     })
 
-    if (!image) throw new Error ("Image not found")
+    if (!image) redirect('/')
 
     if (image.userId !== user.userId) throw new Error("Unauthorized")
     
@@ -50,5 +50,6 @@ export async function deleteImage(id: number){
 
     })
 
-    redirect("/")
+    revalidatePath("/")
+    
 }
