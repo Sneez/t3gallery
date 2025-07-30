@@ -25,6 +25,8 @@
     "@sentry/nextjs": "^9.42.0",
     "@t3-oss/env-nextjs": "^0.12.0",
     "@uploadthing/react": "^7.3.2",
+    "@upstash/ratelimit": "^2.0.6",
+    "@upstash/redis": "^1.35.2",
     "@vercel/postgres": "^0.10.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
